@@ -221,3 +221,7 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
+
+# Additional ignore
+v17/
+FileContentIndex/
