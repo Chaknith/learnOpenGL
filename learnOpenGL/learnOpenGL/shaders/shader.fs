@@ -1,11 +1,16 @@
 #version 330 core
 
-in vec3 position;
-
 out vec4 FragColor;
+  
+in vec3 ourColor;
+in vec2 TexCoord;
+
+uniform sampler2D texture1;
+uniform sampler2D texture2;
+
+uniform float opacity;
 
 void main()
 {
-   // FragColor = vec4((position.x+1)/2,(position.y+1)/2,(position.z+1)/2, 1.0f);
-   FragColor = vec4(position.xyz, 1.0f);
+    FragColor = mix(texture(texture1, TexCoord), texture(texture2, TexCoord), opacity);
 }
