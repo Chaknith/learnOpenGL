@@ -1,17 +1,12 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 #include "shader_s.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
-
-// orange FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
-// yellow FragColor = vec4(1.0f, 1.0f, 0.0f, 1.0f);
-
-unsigned int fragmentShader;
-unsigned int shaderProgramOrange;
-unsigned int shaderProgramYellow;
-float opacity = 0.2f;
 
 // process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
 // ---------------------------------------------------------------------------------------------------------
@@ -19,19 +14,6 @@ void processInput(GLFWwindow* window)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
-
-    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-    {
-        opacity += 0.001f; // change this value accordingly (might be too slow or too fast based on system hardware)
-        if (opacity >= 1.0f)
-            opacity = 1.0f;
-    }
-    if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-    {
-        opacity -= 0.001f; // change this value accordingly (might be too slow or too fast based on system hardware)
-        if (opacity <= 0.0f)
-            opacity = 0.0f;
-    }
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
@@ -116,7 +98,6 @@ int main()
     ourShader.use();
     ourShader.setInt("texture1", 0);
     ourShader.setInt("texture2", 1);
-    ourShader.setFloat("opacity", opacity);
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
@@ -181,10 +162,23 @@ int main()
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, texture2);
 
-        ourShader.setFloat("opacity", opacity);
+        // transformation martix
+        glm::mat4 trans = glm::mat4(1.0f);
+        trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
+        trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0, 0.0, 1.0));
         ourShader.use();
 
+        float scaleFactor = sin(glfwGetTime())/2+0.5f;
+
+        glm::mat4 trans2 = glm::mat4(1.0f);
+        trans2 = glm::translate(trans2, glm::vec3(-0.5f, 0.5f, 0.0f));
+        trans2 = glm::scale(trans2, glm::vec3(scaleFactor, scaleFactor, scaleFactor));
+
         glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
+        ourShader.setMat4("transform", trans2);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        
+        ourShader.setMat4("transform", trans);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         //glDrawArrays(GL_TRIANGLES, 0, 3);
 
