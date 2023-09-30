@@ -146,7 +146,8 @@
     <Library Include="..\..\libraries\lib\glfw3.lib" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="shader_s.h" />
+    <ClInclude Include="camera.h" />
+    <ClInclude Include="shade_c.h" />
     <ClInclude Include="stb_image.h" />
   </ItemGroup>
   <ItemGroup>
