@@ -39,5 +39,7 @@
   <ItemGroup>
     <None Include="shaders\shader.fs" />
     <None Include="shaders\shader.vs" />
+    <None Include="shaders\lightSource.vs" />
+    <None Include="shaders\lightSource.fs" />
   </ItemGroup>
 </Project>
