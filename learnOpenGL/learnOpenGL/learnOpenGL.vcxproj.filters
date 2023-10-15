@@ -24,6 +24,7 @@
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\..\libraries\lib\glfw3.lib" />
+    <Library Include="..\..\libraries\lib\assimpd.lib" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="shade_c.h">

@@ -143,6 +143,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Library Include="..\..\libraries\lib\assimpd.lib" />
     <Library Include="..\..\libraries\lib\glfw3.lib" />
   </ItemGroup>
   <ItemGroup>
